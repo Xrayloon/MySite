@@ -1,9 +1,30 @@
+import sys
+import os
+from os.path import dirname, abspath
+
+current_file = abspath(__file__) # путь к env.py
+alembic_dir = dirname(current_file) # папка alembic
+project_root = dirname(alembic_dir) # корень MySite
+backend_dir = os.path.join(project_root, "backend")
+
+sys.path.insert(0, project_root)
+sys.path.insert(0, backend_dir)
+
+
+from app.db.database import Base # type: ignore
+from app.db.models import UserId, UserProfile, Item # type: ignore
+
+
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+
+
+
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -18,7 +39,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -76,3 +97,5 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
+
+print(f"DEBUG: Загруженные таблицы: {target_metadata.tables.keys()}")

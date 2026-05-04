@@ -25,12 +25,12 @@ class UserProfile(Base): # личный кабинет c доп информац
     first_name: Mapped[str] = mapped_column(String(50), nullable=True)
     second_name: Mapped[str] = mapped_column(String(50), nullable=True)
     phone_number: Mapped[str] = mapped_column(String(20), nullable=True, unique=True) 
-    user_id: Mapped[int] = mapped_column(ForeignKey("userid.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("userid.id"), primary_key=True)
 
 class Item(Base):
     __tablename__ = 'item'
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     name: Mapped[str] = mapped_column(nullable=False)
-    price: Mapped[int] = mapped_column(Integer(9999999), nullable=False)
+    price: Mapped[int] = mapped_column(Integer, nullable=False)
     description: Mapped[str] = mapped_column(nullable=False)

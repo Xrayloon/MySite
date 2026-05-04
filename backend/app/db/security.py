@@ -8,3 +8,8 @@ from pwdlib.hashers.bcrypt import BcryptHasher
 
 from app.core.config import settings
 
+
+ALGORITHM = 'HS256'
+
+def create_access_token():
+    pass
