@@ -9,7 +9,7 @@ from sqlalchemy.orm import(
     mapped_column,
 )
 
-from app.db.database import Base
+from .database import Base
 
 class UserId(Base): # Данные для авторизации 
     __tablename__ = "userid"
