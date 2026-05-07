@@ -15,9 +15,9 @@ class UserId(Base): # Данные для авторизации
     __tablename__ = "userid"
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True) 
-    nickname: Mapped[str] = mapped_column(String(25), unique=True, nullable=False)
+    username: Mapped[str] = mapped_column(String(25), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(150), unique=True, nullable=False)
-    hashed_password: Mapped[str]   # хэшированный пароль
+    hashed_password: Mapped[str]  = mapped_column(String, nullable=False) # хэшированный пароль
 
 class UserProfile(Base): # личный кабинет c доп информации для автозаполнения
     __tablename__ =  'userinfo'
