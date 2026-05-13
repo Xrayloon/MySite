@@ -12,9 +12,10 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASS: str
 
+    ALGORITHM: str
     SECRET_KEY: str = secrets.token_urlsafe(32)
-    # 60 * 24 * 6 = 6 days
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 6 
+    
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
 
     @property
