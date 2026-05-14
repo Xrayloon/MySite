@@ -1,15 +1,17 @@
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
-
-class UserFromDB(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
+class UserPrivate(BaseModel):
     id: int
-    username: str = Field(min_length=4)
+    username: str
     email: EmailStr
-    phone_number: str | None
 
+class UserUpdate(BaseModel):
+    email: EmailStr | None = Field(default=None, max_length=150)
+    phone_number: str | None = Field(default=None)
+    first_name: str | None = Field(default=None, min_length=2, max_length=20)
+    second_name: str | None = Field(default=None, max_length=20)
+    
 class UserCreate(BaseModel):
     username: str = Field(min_length=4)
     email: EmailStr

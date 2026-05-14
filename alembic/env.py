@@ -12,7 +12,7 @@ sys.path.insert(0, backend_dir)
 
 
 from app.db.database import Base # type: ignore
-from app.db.models import User, UserInfo, Token, Item # type: ignore
+from app.db.models import User, UserInfo, Tokens, Item # type: ignore
 
 
 from logging.config import fileConfig

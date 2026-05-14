@@ -26,7 +26,7 @@ class User(Base): # Данные для авторизации
     hashed_password: Mapped[str]  = mapped_column(String, nullable=False) # хэшированный пароль
 
     profile: Mapped["UserInfo"] = relationship(back_populates="user")
-
+ 
 
 class UserInfo(Base): # личный кабинет c доп информации для автозаполнения
     __tablename__ =  'userinfo'
@@ -38,14 +38,14 @@ class UserInfo(Base): # личный кабинет c доп информаци�
 
     user: Mapped["User"] = relationship(back_populates='profile')
 
-class Token(Base):
+class Tokens(Base):
     __tablename__ = 'tokens'
     """
     Заменить verify_access_token на refresh_token
     """
 
     access_token: Mapped[str] = mapped_column(String(500),nullable=False)
-    verify_access_token: Mapped[str] = mapped_column(String(500), nullable=False)
+    refresh_token: Mapped[str] = mapped_column(String(500), nullable=False)
     user_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("user.id"), primary_key=True)
 
 
