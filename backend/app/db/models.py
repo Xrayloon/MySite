@@ -1,4 +1,3 @@
-import uuid
 from uuid import uuid4, UUID
 from sqlalchemy import (
     BigInteger,
@@ -34,7 +33,7 @@ class UserInfo(Base): # личный кабинет c доп информаци�
     first_name: Mapped[str] = mapped_column(String(50), nullable=True)
     second_name: Mapped[str] = mapped_column(String(50), nullable=True)
     phone_number: Mapped[str] = mapped_column(String(20), nullable=True, unique=True) 
-    user_id: Mapped[uuid.UUID] = mapped_column(Uuid, ForeignKey("user.id"), primary_key=True)
+    user_id: Mapped[UUID] = mapped_column(Uuid, ForeignKey("user.id"), primary_key=True)
 
     user: Mapped["User"] = relationship(back_populates='profile')
 

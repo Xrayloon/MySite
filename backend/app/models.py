@@ -1,5 +1,10 @@
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+import phonenumbers
 
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from typing import Annotated, Union
+from pydantic_extra_types.phone_numbers import PhoneNumberValidator
+
+E164NumberType = Annotated[Union[str, phonenumbers.PhoneNumber], PhoneNumberValidator(number_format='E164')] # https://pydantic.dev/docs/validation/latest/api/pydantic-extra-types/pydantic_extra_types_phone_numbers/#normal-usage
 
 class UserPrivate(BaseModel):
     id: int
@@ -7,8 +12,7 @@ class UserPrivate(BaseModel):
     email: EmailStr
 
 class UserUpdate(BaseModel):
-    email: EmailStr | None = Field(default=None, max_length=150)
-    phone_number: str | None = Field(default=None)
+    phone_number: E164NumberType | None = None
     first_name: str | None = Field(default=None, min_length=2, max_length=20)
     second_name: str | None = Field(default=None, max_length=20)
     

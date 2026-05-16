@@ -8,8 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, or_, and_ 
 
 from ..core.security import settings, get_password_hash, verify_password, create_access_token, verify_access_token, oauth2_scheme
-from ..models import UserCreate, UserPrivate, Token
-from ..db.models import User, Token,UserInfo
+from ..models import UserCreate, UserPrivate, UserUpdate, Token
+from ..db.models import User, Tokens, UserInfo
 from ..db.database import get_async_session
 
 router = APIRouter(tags=['auth'])
@@ -41,16 +41,26 @@ async def create_user(
 @router.patch('/{user_id}')
 async def update_user(
     user_id: uuid.UUID,
-    user_update:UserPrivate,
+    user_update: UserUpdate,
     db: Annotated[AsyncSession, Depends(get_async_session)]
     ):
     result = await db.execute(select(User).where(User.id == user_id))
-    if not result:
+    if not result.scalar_one_or_none():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Пользователь не найден",
         )
-    # TODO доделать 15 мая
+    user = UserInfo(
+        user_id= user_id,
+        first_name= user_update.first_name.capitalize(),
+        second_name= user_update.second_name.capitalize(),
+        phone_number= user_update.phone_number,
+    )
+    user = await db.merge(user) 
+    await db.commit()
+    await db.refresh(user)
+
+    return {"user": user}
 
 @router.post("/token", response_model=Token) # Референс https://github.com/CoreyMSchafer/FastAPI-10-Authentication/blob/main/routers/users.py
 async def login_for_access_token(
