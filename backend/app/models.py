@@ -16,8 +16,9 @@ class UserUpdate(BaseModel):
     first_name: str | None = Field(default=None, min_length=2, max_length=20)
     second_name: str | None = Field(default=None, max_length=20)
     
+    
 class UserCreate(BaseModel):
-    username: str = Field(min_length=4)
+    username: str = Field(min_length=4, pattern=r'^[a-zA-Z0-9_]+$')
     email: EmailStr
     password: str = Field(min_length=8)
 

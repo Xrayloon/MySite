@@ -20,7 +20,7 @@ class User(Base): # Данные для авторизации
     __tablename__ = "user"
 
     id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid4) 
-    username: Mapped[str] = mapped_column(String(25), unique=True, nullable=False)
+    username: Mapped[str] = mapped_column(String(25), unique=True, nullable=False, index= True)
     email: Mapped[str] = mapped_column(String(150), unique=True, nullable=False)
     hashed_password: Mapped[str]  = mapped_column(String, nullable=False) # хэшированный пароль
 
@@ -39,9 +39,6 @@ class UserInfo(Base): # личный кабинет c доп информаци�
 
 class Tokens(Base):
     __tablename__ = 'tokens'
-    """
-    Заменить verify_access_token на refresh_token
-    """
 
     access_token: Mapped[str] = mapped_column(String(500),nullable=False)
     refresh_token: Mapped[str] = mapped_column(String(500), nullable=False)
@@ -52,8 +49,21 @@ class Item(Base):
     __tablename__ = 'item'
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    name: Mapped[str] = mapped_column(String(100),nullable=False)
-    price: Mapped[int] = mapped_column(Numeric(10,2), nullable=False)
+    name: Mapped[str] = mapped_column(String(100),nullable=False, index=True)
+    price: Mapped[int] = mapped_column(Numeric(10,2), nullable=False, index=True)
+    category: Mapped[str] = mapped_column(String(25),nullable=False, index=True)
     description: Mapped[str] = mapped_column(Text, nullable=False)
+    
 
+"""
+class Cart(Base):
+    __tablename__ = 'cart'
+
+    id_item: Mapped[int] = mapped_column()
+    name_item: Mapped[int]
+    count: Mapped[int]
+    price_item: Mapped[int] = mapped_column(Numeric(10,2),nullable=False)
+
+    
+    """
 
